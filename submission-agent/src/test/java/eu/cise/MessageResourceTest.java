@@ -16,8 +16,8 @@ public class MessageResourceTest {
                 .body("my message")
                 .post("/messages")
                 .then()
-                .statusCode(201)
-                .body(is("my message"));
+                .statusCode(200)
+                .body(is("RECV: my message"));
     }
 
 

@@ -32,5 +32,4 @@ public class MessageResource {
 
         return "RECV: " + message;
     }
-
 }
