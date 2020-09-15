@@ -1,5 +1,6 @@
 package eu.cise;
 
+import io.quarkus.test.common.QuarkusTestResource;
 import io.quarkus.test.junit.QuarkusTest;
 import org.junit.jupiter.api.Test;
 
@@ -7,7 +8,9 @@ import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.is;
 
 @QuarkusTest
+@QuarkusTestResource(KafkaResource.class)
 public class MessageResourceTest {
+
     @Test
     public void it_post_a_string_message_to_resource() {
         given()
