@@ -13,6 +13,7 @@ services:
       LOG_DIR: /tmp/logs
     networks:
       - kafkastreams-network
+
   kafka:
     image: strimzi/kafka:0.11.3-kafka-2.1.0
     command: [
@@ -33,7 +34,7 @@ services:
       - kafkastreams-network
 
   submission-agent:
-    image: quarkus-quickstarts/kafka-streams-producer:1.0
+    image: cise/submission-agent:1.0
     build:
       context: submission-agent
       dockerfile: src/main/docker/Dockerfile.${QUARKUS_MODE:-jvm}
@@ -43,17 +44,27 @@ services:
       KAFKA_BOOTSTRAP_SERVERS: kafka:9092
     networks:
       - kafkastreams-network
-
-  # aggregator:
-  #   image: quarkus-quickstarts/kafka-streams-aggregator:1.0
-  #   build:
-  #     context: aggregator
-  #     dockerfile: src/main/docker/Dockerfile.${QUARKUS_MODE:-jvm}
-  #   environment:
-  #     QUARKUS_KAFKA_STREAMS_BOOTSTRAP_SERVERS: kafka:9092
-  #   networks:
-  #     - kafkastreams-network
-
+    
+  message-processor:
+    image: cise/message-processor:1.0
+    build:
+      context: message-processor
+      dockerfile: src/main/docker/Dockerfile.${QUARKUS_MODE:-jvm}
+    environment:
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+    networks:
+      - kafkastreams-network
+    
+  transfer-agent:
+    image: cise/transfer-agent:1.0
+    build:
+      context: transfer-agent
+      dockerfile: src/main/docker/Dockerfile.${QUARKUS_MODE:-jvm}
+    environment:
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+    networks:
+      - kafkastreams-network
+        
 networks:
   kafkastreams-network:
     name: ks
