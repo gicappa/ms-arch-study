@@ -54,7 +54,7 @@ public class ValidatedMessageTest {
 
         assertNull(records.key());
 
-        assertEquals("my message", records.value());
+        assertEquals("msg: my message\nstep: verified", records.value());
     }
 
 }

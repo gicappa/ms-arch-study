@@ -11,6 +11,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 
+import static java.lang.String.format;
 import static javax.ws.rs.core.MediaType.TEXT_PLAIN;
 
 @Path("/messages")
@@ -28,7 +29,7 @@ public class MessageResource {
     public String create(String message) {
         logger.info(">> RECV: {}", message);
 
-        emitter.send(message);
+        emitter.send(format("msg: %s\nstep: verified", message));
 
         return "RECV: " + message;
     }
